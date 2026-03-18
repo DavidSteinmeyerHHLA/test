@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - development
 
 jobs:
   check-source-branch:
@@ -11,4 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Require development branch
+        if: github.base_ref == 'main'
         run: test "${{ github.head_ref }}" = "development"
