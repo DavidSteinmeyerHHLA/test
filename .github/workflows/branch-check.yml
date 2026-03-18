@@ -11,6 +11,22 @@ jobs:
     name: Check if PR comes from development
     runs-on: ubuntu-latest
     steps:
-      - name: Require development branch
-        if: github.base_ref == 'main'
-        run: test "${{ github.head_ref }}" = "development"
+      - name: Validate Source and Target
+        run: |
+          TARGET="${{ github.base_ref }}"
+          SOURCE="${{ github.head_ref }}"
+
+          echo "Ziel-Branch (Base): $TARGET"
+          echo "Quell-Branch (Head): $SOURCE"
+
+          # Prüfen: Wenn das Ziel 'main' ist...
+          if [ "$TARGET" == "main" ]; then
+            # ...dann MUSS die Quelle 'development' sein
+            if [ "$SOURCE" != "development" ]; then
+              echo "❌ FEHLER: Pull Requests in 'main' dürfen NUR aus 'development' kommen!"
+              exit 1
+            fi
+          fi
+
+          echo "✅ Check bestanden. Dieser Merge ist erlaubt."
+          exit 0
