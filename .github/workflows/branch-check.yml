@@ -1,0 +1,14 @@
+name: Enforce PR Source Branch
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-source-branch:
+    name: Check if PR comes from development
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require development branch
+        run: test "${{ github.head_ref }}" = "development"
