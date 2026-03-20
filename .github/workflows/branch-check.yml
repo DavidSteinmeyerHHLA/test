@@ -16,17 +16,15 @@ jobs:
           TARGET="${{ github.base_ref }}"
           SOURCE="${{ github.head_ref }}"
 
-          echo "Ziel-Branch (Base): $TARGET"
-          echo "Quell-Branch (Head): $SOURCE"
+          echo "Target-Branch (Base): $TARGET"
+          echo "Source-Branch (Head): $SOURCE"
 
-          # Prüfen: Wenn das Ziel 'main' ist...
           if [ "$TARGET" == "main" ]; then
-            # ...dann MUSS die Quelle 'development' sein
             if [ "$SOURCE" != "development" ]; then
-              echo "❌ FEHLER: Pull Requests in 'main' dürfen NUR aus 'development' kommen!"
+              echo "❌ Pull Requests into 'main' are only allowed from 'development'!"
               exit 1
             fi
           fi
 
-          echo "✅ Check bestanden. Dieser Merge ist erlaubt."
+          echo "✅ Pull Request valid."
           exit 0
